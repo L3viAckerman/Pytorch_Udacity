@@ -85,7 +85,7 @@ criterion = nn.MSELoss()
 # specify optimizer
 optimizer = torch.optim.Adam(model.parameters(), lr = 0.001)
 
-n_epochs = 30
+n_epochs = 100
 
 for epoch in range(1, n_epochs+1):
     train_loss = 0.0
@@ -124,9 +124,11 @@ output = model(images)
 
 output = output.view(batch_size, 1, 28, 28)
 # use detach when it's an output that requires_grad
+output = output.cpu()
 output = output.detach().numpy()
+images = images.cpu()
 
-fig, axes = plt.subplot(nrows = 2, ncols = 10, sharex=True, sharey=True, figsize=(25, 4))
+fig, axes = plt.subplots(nrows=2, ncols=10, sharex=True, sharey=True, figsize=(25,4))
 
 for images, row in zip([images, output], axes):
     for img, ax in zip(images, row):
